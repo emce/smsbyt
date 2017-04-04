@@ -1,0 +1,31 @@
+ext {
+    compileSdk = 25
+    buildTools = "25.0.2"
+    appVersion = "1.0."
+    gradleVersion = "2.3.0"
+
+    // Gradle
+    kotlinVersion = "1.1.1"
+    uptodateVersion = "1.6.3"
+    jacocoVersion = "0.1.1"
+
+    // Libraries
+    supportLibVersion = "25.3.1"
+    constraintLayoutVersion = "1.0.2"
+    firebaseVersion = "10.0.1"
+    retrofitVersion = "2.2.0"
+    okhttpVersion = "3.6.0"
+    moshiVersion = "1.4.0"
+    rxJavaVersion = "1.2.9"
+    rxAndroidVersion = "1.2.1"
+    rxKotlinVersion = "1.0.0"
+    permissionUtilsVersion = "0.9.3"
+    timberVersion = "4.5.1"
+    featherVersion = "1.0"
+
+    junitVersion = "4.12"
+    robolectricVersion = "3.2.2"
+    mockitoCoreVersion = "2.7.21"
+    mockitoKotlinVersion = "1.4.0"
+    hamcrestCoreVersion = "1.4-atlassian-1"
+}

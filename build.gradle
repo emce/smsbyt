@@ -1,0 +1,26 @@
+buildscript {
+    apply from: "dependencies.gradle"
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "com.ofg:uptodate-gradle-plugin:$uptodateVersion"
+        classpath "com.dicedmelon.gradle:jacoco-android:$jacocoVersion"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
