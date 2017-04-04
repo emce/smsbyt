@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.SmsMessage
-
-
+import mobi.cwiklinski.smsbyt.config.Bundles
 
 
 class LaunchReceiver : BroadcastReceiver() {
@@ -17,10 +16,10 @@ class LaunchReceiver : BroadcastReceiver() {
         when (intent?.action) {
             SMS_RECEIVED -> {
                 if (intent.extras != null) {
-                    val pdus = intent.extras.get("pdus") as ByteArray
+                    val pdus = intent.extras.get(Bundles.PDUS) as ByteArray
                     val sms: SmsMessage
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        sms = SmsMessage.createFromPdu(pdus, intent.extras.getString("format"))
+                        sms = SmsMessage.createFromPdu(pdus, intent.extras.getString(Bundles.FORMAT))
                     } else {
                         @Suppress("DEPRECATION")
                         sms = SmsMessage.createFromPdu(pdus)
