@@ -15,7 +15,7 @@ ext {
     firebaseVersion = "10.0.1"
     retrofitVersion = "2.2.0"
     okhttpVersion = "3.6.0"
-    moshiVersion = "1.4.0"
+    gsonVersion = "2.8.0"
     rxJavaVersion = "1.2.9"
     rxAndroidVersion = "1.2.1"
     rxKotlinVersion = "1.0.0"
@@ -25,7 +25,7 @@ ext {
 
     junitVersion = "4.12"
     robolectricVersion = "3.2.2"
-    mockitoCoreVersion = "2.7.21"
+    mockitoCoreVersion = "2.7.22"
     mockitoKotlinVersion = "1.4.0"
     hamcrestCoreVersion = "1.4-atlassian-1"
 }

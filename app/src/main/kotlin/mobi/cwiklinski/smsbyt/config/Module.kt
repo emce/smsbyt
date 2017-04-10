@@ -1,17 +1,25 @@
 package mobi.cwiklinski.smsbyt.config
 
 import android.content.Context
-import com.squareup.moshi.Moshi
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import mobi.cwiklinski.smsbyt.App
 import mobi.cwiklinski.smsbyt.BuildConfig
-import mobi.cwiklinski.smsbyt.ui.network.Api
+import mobi.cwiklinski.smsbyt.model.telegram.Message
+import mobi.cwiklinski.smsbyt.model.telegram.adapter.MessageDeserializer
+import mobi.cwiklinski.smsbyt.model.telegram.adapter.MessageListDeserializer
+import mobi.cwiklinski.smsbyt.network.Api
+import mobi.cwiklinski.smsbyt.provider.CommunicationProvider
+import mobi.cwiklinski.smsbyt.provider.PreferenceStorageProvider
+import mobi.cwiklinski.smsbyt.provider.RestTelegramCommunicationProvider
+import mobi.cwiklinski.smsbyt.provider.StorageProvider
 import mobi.cwiklinski.smsbyt.util.RxSchedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.codejargon.feather.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.concurrent.Executors
@@ -34,9 +42,11 @@ class Module(val app: App) {
 
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder()
-
-            .build()
+    fun provideGson(): Gson = GsonBuilder()
+            .registerTypeAdapter(Message::class.java, MessageDeserializer())
+            .registerTypeAdapter(List::class.java, MessageListDeserializer())
+            .disableHtmlEscaping()
+            .create()
 
     @Provides
     @Singleton
@@ -58,16 +68,26 @@ class Module(val app: App) {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit
+    fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit
             = Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Constants.TELEGRAM_URL)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
 
     @Provides
     @Singleton
     fun provideApi(retrofit: Retrofit): Api = retrofit.create<Api>(Api::class.java)
+
+    @Provides
+    @Singleton
+    fun provideStorage(): StorageProvider = PreferenceStorageProvider(
+            app.getSharedPreferences(Constants.STORAGE_KEY, Context.MODE_PRIVATE))
+
+    @Provides
+    @Singleton
+    fun provideCommunication(api: Api): CommunicationProvider
+            = RestTelegramCommunicationProvider(api)
 
 }

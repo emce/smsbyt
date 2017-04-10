@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "result": {
+    "chat": {
+      "first_name": "Satish",
+      "id": 246367260,
+      "last_name": "Talim",
+      "type": "private",
+      "username": "IndianGuru"
+    },
+    "date": 1473915564,
+    "from": {
+      "first_name": "SMTFirst",
+      "id": 276401636,
+      "username": "SMTFirstBot"
+    },
+    "message_id": 13,
+    "text": "Hello from SMTFirstBot"
+  }
+}

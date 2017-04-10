@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "result": [
+    {
+      "message": {
+        "chat": {
+          "first_name": "Satish",
+          "id": 246367260,
+          "last_name": "Talim",
+          "type": "private",
+          "username": "IndianGuru"
+        },
+        "date": 1473914771,
+        "from": {
+          "first_name": "Satish",
+          "id": 246367260,
+          "last_name": "Talim",
+          "username": "IndianGuru"
+        },
+        "message_id": 12,
+        "text": "Hello SMTFirstBot"
+      },
+      "update_id": 839499903
+    },
+    {
+      "message": {
+        "chat": {
+          "first_name": "OSdsd",
+          "id": 234457260,
+          "last_name": "Errtg",
+          "type": "private",
+          "username": "Tomek"
+        },
+        "date": 1473915871,
+        "from": {
+          "first_name": "Roplke",
+          "id": 246362760,
+          "last_name": "Volim",
+          "username": "Edesh"
+        },
+        "message_id": 15,
+        "text": "Hello again"
+      },
+      "update_id": 839499003
+    }
+  ]
+}

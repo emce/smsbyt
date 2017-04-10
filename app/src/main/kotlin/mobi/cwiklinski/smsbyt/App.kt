@@ -31,7 +31,7 @@ class App : Application() {
         }
     }
 
-    open fun isCrashLogEnabled() = BuildConfig.DEBUG
+    fun isCrashLogEnabled() = BuildConfig.DEBUG
 
     inner class CrashTree : Timber.Tree() {
 

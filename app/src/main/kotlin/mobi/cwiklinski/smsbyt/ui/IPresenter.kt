@@ -19,7 +19,7 @@ abstract class IPresenter<V : IView> {
 
     }
 
-    open fun pause() {
+    open fun stop() {
         subscriptions.clear()
     }
 }
