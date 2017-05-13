@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setupCoordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mobi.cwiklinski.smsbyt.ui.setup.SetupActivity">
+
+    <mobi.cwiklinski.smsbyt.view.BehaviourViewPager
+        android:id="@+id/setupPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.design.widget.CoordinatorLayout>

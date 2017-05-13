@@ -1,24 +1,23 @@
 package mobi.cwiklinski.smsbyt.ui
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import mobi.cwiklinski.smsbyt.provider.StorageProvider
 import mobi.cwiklinski.smsbyt.ui.main.MainPresenter
 import mobi.cwiklinski.smsbyt.ui.main.MainView
 import mobi.cwiklinski.smsbyt.utils.TestTools
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertNotNull
+import org.mockito.ArgumentMatchers.anyLong
+import org.mockito.ArgumentMatchers.anyString
 
 
 class MainPresenterTest {
 
-    private val view = mock<MainView> {
-
-    }
-    private val storage = mock<StorageProvider>()
-    private val presenter = MainPresenter(storage, TestTools.testSchedulers())
+    private val view: MainView = mock()
+    private val storage: StorageProvider = mock()
+    private val presenter = MainPresenter(storage)
 
     @Before
     fun setUp() {
@@ -27,27 +26,21 @@ class MainPresenterTest {
 
     @Test
     @Throws(Exception::class)
-    fun shouldHaveViewAttached() {
-        assertNotNull(presenter.view)
+    fun shouldOpenSetupIfNotConfigured() {
+        whenever(storage.get(anyString(), anyLong())).thenReturn(0)
+        whenever(storage.get(anyString(), anyString())).thenReturn("")
+        presenter.start()
+        verify(view).showSetup()
     }
 
     @Test
     @Throws(Exception::class)
-    fun shouldShowProperView() {
-        presenter.goToSms()
-        verify(view).switchToSms()
-        presenter.goToChannel()
-        verify(view).switchToChannel()
-        presenter.goToUser()
-        verify(view).switchToUser()
-        presenter.goToTest()
-        verify(view).switchToTest()
+    fun shouldShowConfirmationAfterReset() {
+        whenever(storage.get(anyString(), anyLong())).thenReturn(TestTools.randomLong())
+        whenever(storage.get(anyString(), anyString())).thenReturn(TestTools.randomString(12))
+        presenter.start()
+        presenter.queryForReset()
+        verify(view).showResetConfirmation()
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun shouldShowMessage() {
-        presenter.showMessage(TestTools.randomString(12))
-        verify(view).showMessage(any<String>())
-    }
 }

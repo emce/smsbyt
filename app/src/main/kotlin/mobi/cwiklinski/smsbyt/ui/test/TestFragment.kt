@@ -10,8 +10,8 @@ import mobi.cwiklinski.smsbyt.R
 import mobi.cwiklinski.smsbyt.model.telegram.TextMessage
 import mobi.cwiklinski.smsbyt.provider.StorageProvider
 import mobi.cwiklinski.smsbyt.ui.base.BaseFragment
-import mobi.cwiklinski.smsbyt.ui.main.MainActivity
-import mobi.cwiklinski.smsbyt.ui.main.MainPresenter
+import mobi.cwiklinski.smsbyt.ui.setup.SetupActivity
+import mobi.cwiklinski.smsbyt.ui.setup.SetupPresenter
 import javax.inject.Inject
 
 
@@ -22,7 +22,7 @@ class TestFragment : BaseFragment(), TestView, View.OnClickListener {
     }
 
     @Inject lateinit var presenter: TestPresenter
-    lateinit private var mainPresenter: MainPresenter
+    lateinit private var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
@@ -43,7 +43,7 @@ class TestFragment : BaseFragment(), TestView, View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainPresenter = (activity as MainActivity).presenter
+        setupPresenter = (activity as SetupActivity).presenter
     }
 
     override fun onResume() {
@@ -69,7 +69,7 @@ class TestFragment : BaseFragment(), TestView, View.OnClickListener {
     }
 
     override fun onPrevious() {
-        mainPresenter.goToUser()
+        setupPresenter.goToUser()
     }
 
     override fun finish() {
@@ -77,7 +77,7 @@ class TestFragment : BaseFragment(), TestView, View.OnClickListener {
     }
 
     override fun onMessageSent(successful: Boolean) {
-        mainPresenter.showMessage(if (successful) R.string.test_message_sent
+        setupPresenter.showMessage(if (successful) R.string.test_message_sent
             else R.string.test_message_failed)
     }
 

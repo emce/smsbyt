@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.setup.SetupActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <receiver
             android:name="mobi.cwiklinski.smsbyt.receiver.LaunchReceiver"
             android:permission="android.permission.BROADCAST_SMS">

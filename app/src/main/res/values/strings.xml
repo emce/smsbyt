@@ -4,6 +4,11 @@
     <string name="previous">Powrót</string>
     <string name="finish">Zakończ</string>
     <string name="close">Zamknij</string>
+    <!-- MAIN -->
+    <string name="main_reset">Skonfiguruj ponownie</string>
+    <string name="main_reset_dialog_title">Resetowanie konfiguracji</string>
+    <string name="main_reset_dialog_message">Wszystko poprzednie ustawienia zostaną wyczyszczone. Konfiguracji nie będzie można przywrócić.</string>
+    <string name="main_reset_dialog_button">Resetuj</string>
     <!-- SMS -->
     <string name="sms_title">Uprawnienia dla SMS</string>
     <string name="sms_permissions">Przydziel uprawnienia</string>

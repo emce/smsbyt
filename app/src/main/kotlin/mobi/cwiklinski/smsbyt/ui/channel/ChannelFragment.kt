@@ -1,7 +1,6 @@
 package mobi.cwiklinski.smsbyt.ui.channel
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +11,10 @@ import mobi.cwiklinski.smsbyt.App
 import mobi.cwiklinski.smsbyt.R
 import mobi.cwiklinski.smsbyt.config.Constants
 import mobi.cwiklinski.smsbyt.ui.base.BaseFragment
-import mobi.cwiklinski.smsbyt.ui.main.MainActivity
-import mobi.cwiklinski.smsbyt.ui.main.MainPresenter
+import mobi.cwiklinski.smsbyt.ui.setup.SetupActivity
+import mobi.cwiklinski.smsbyt.ui.setup.SetupPresenter
 import mobi.cwiklinski.smsbyt.util.generateTelegramForGooglePlay
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -25,7 +25,7 @@ class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
     }
 
     @Inject lateinit var presenter: ChannelPresenter
-    lateinit private var mainPresenter: MainPresenter
+    lateinit private var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
@@ -45,7 +45,7 @@ class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainPresenter = (activity as MainActivity).presenter
+        setupPresenter = (activity as SetupActivity).presenter
     }
 
     override fun onResume() {
@@ -68,12 +68,12 @@ class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
 
     override fun onNext() {
         getBaseActivity().hideKeyboard()
-        mainPresenter.goToUser()
+        setupPresenter.goToUser()
     }
 
     override fun onPrevious() {
         getBaseActivity().hideKeyboard()
-        mainPresenter.goToSms()
+        setupPresenter.goToSms()
     }
 
     override fun canGoNext(canGo: Boolean) {
@@ -91,7 +91,8 @@ class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
         try {
             startActivity(intent)
             return true
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: Exception) {
+            Timber.e(e)
             openTelegramInPlayStore()
         }
         return false

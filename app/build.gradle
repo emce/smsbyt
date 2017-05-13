@@ -5,7 +5,7 @@ apply plugin: "kotlin-allopen"
 apply plugin: "kotlin-kapt"
 apply plugin: "com.ofg.uptodate"
 
-//def commitCount = Integer.parseInt('git rev-list HEAD --count'.execute([], project.rootDir).text.trim())
+def commitCount = Integer.parseInt('git rev-list HEAD --count'.execute([], project.rootDir).text.trim())
 
 android {
     compileSdkVersion compileSdk
@@ -14,7 +14,7 @@ android {
         applicationId "mobi.cwiklinski.smsbyt"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
+        versionCode commitCount
         versionName appVersion + versionCode
         vectorDrawables.useSupportLibrary = true
     }

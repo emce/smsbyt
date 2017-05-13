@@ -8,8 +8,8 @@ import kotlinx.android.synthetic.main.fragment_user.*
 import mobi.cwiklinski.smsbyt.App
 import mobi.cwiklinski.smsbyt.R
 import mobi.cwiklinski.smsbyt.ui.base.BaseFragment
-import mobi.cwiklinski.smsbyt.ui.main.MainActivity
-import mobi.cwiklinski.smsbyt.ui.main.MainPresenter
+import mobi.cwiklinski.smsbyt.ui.setup.SetupActivity
+import mobi.cwiklinski.smsbyt.ui.setup.SetupPresenter
 import javax.inject.Inject
 
 
@@ -20,7 +20,7 @@ class UserFragment : BaseFragment(), UserView, View.OnClickListener {
     }
 
     @Inject lateinit var presenter: UserPresenter
-    lateinit private var mainPresenter: MainPresenter
+    lateinit private var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
@@ -39,7 +39,7 @@ class UserFragment : BaseFragment(), UserView, View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainPresenter = (activity as MainActivity).presenter
+        setupPresenter = (activity as SetupActivity).presenter
     }
 
     override fun onClick(v: View?) {
@@ -53,20 +53,20 @@ class UserFragment : BaseFragment(), UserView, View.OnClickListener {
 
     override fun onNext() {
         getBaseActivity().hideKeyboard()
-        mainPresenter.goToTest()
+        setupPresenter.goToTest()
     }
 
     override fun onPrevious() {
-        mainPresenter.goToChannel()
+        setupPresenter.goToChannel()
     }
 
     override fun getUserName(): String = userName.text.toString()
 
     override fun showUserNameError() {
-        mainPresenter.showMessage(R.string.user_name_incorrect)
+        setupPresenter.showMessage(R.string.user_name_incorrect)
     }
 
     override fun showConversationError() {
-        mainPresenter.showMessage(R.string.user_no_conversation)
+        setupPresenter.showMessage(R.string.user_no_conversation)
     }
 }

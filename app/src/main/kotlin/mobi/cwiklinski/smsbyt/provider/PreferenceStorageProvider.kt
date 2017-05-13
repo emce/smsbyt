@@ -21,4 +21,8 @@ class PreferenceStorageProvider(val prefs: SharedPreferences)
     override fun get(key: String, default: String): String {
         return prefs.getString(key, default)
     }
+
+    override fun clear() {
+        prefs.edit().clear().apply()
+    }
 }

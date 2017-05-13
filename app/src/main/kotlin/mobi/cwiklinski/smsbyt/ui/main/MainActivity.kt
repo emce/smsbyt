@@ -1,25 +1,20 @@
 package mobi.cwiklinski.smsbyt.ui.main
 
-import android.Manifest
+import android.app.Dialog
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import android.view.View
 import mobi.cwiklinski.smsbyt.App
 import mobi.cwiklinski.smsbyt.R
 import mobi.cwiklinski.smsbyt.ui.base.BaseActivity
-import mobi.cwiklinski.smsbyt.ui.channel.ChannelFragment
-import mobi.cwiklinski.smsbyt.ui.sms.SmsFragment
-import mobi.cwiklinski.smsbyt.ui.test.TestFragment
-import mobi.cwiklinski.smsbyt.ui.user.UserFragment
-import mobi.cwiklinski.smsbyt.util.hasPermissions
+import mobi.cwiklinski.smsbyt.ui.setup.SetupActivity
+import mobi.cwiklinski.smsbyt.util.IntentFor
+import mobi.cwiklinski.smsbyt.view.AlertDialogBuilder
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), MainView {
+class MainActivity : BaseActivity(), MainView, View.OnClickListener {
 
     @Inject lateinit var presenter: MainPresenter
+    private var dialog: Dialog? = null
 
     override fun inject() {
         App.get().feather.injectFields(this)
@@ -29,8 +24,6 @@ class MainActivity : BaseActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         presenter.attachView(this)
-        mainPager.adapter = MainAdapter(supportFragmentManager)
-        mainPager.currentItem = 0
     }
 
     override fun onResume() {
@@ -43,44 +36,28 @@ class MainActivity : BaseActivity(), MainView {
         presenter.stop()
     }
 
-    override fun switchToSms() {
-        mainPager.currentItem = 0
-    }
-
-    override fun switchToChannel() {
-        mainPager.currentItem = 1
-    }
-
-    override fun switchToUser() {
-        mainPager.currentItem = 2
-    }
-
-    override fun switchToTest() {
-        mainPager.currentItem = 3
-    }
-
-    override fun showMessage(message: String) {
-        val snackBar = Snackbar.make(mainCoordinator, message, Snackbar.LENGTH_INDEFINITE)
-        snackBar.setAction(R.string.close) {
-            snackBar.dismiss()
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.mainReset -> presenter.queryForReset()
         }
-        snackBar.show()
     }
 
-    override fun hasSmsPermission(): Boolean = hasPermissions(Manifest.permission.READ_SMS)
+    override fun showSetup() {
+        startActivity(IntentFor<SetupActivity>(this))
+    }
 
-    class MainAdapter(manager: FragmentManager) : FragmentStatePagerAdapter(manager) {
-
-        val fragments = listOf<Fragment>(
-                SmsFragment.newInstance(),
-                ChannelFragment.newInstance(),
-                UserFragment.newInstance(),
-                TestFragment.newInstance()
-        )
-
-        override fun getItem(position: Int) = fragments[position]
-
-        override fun getCount() = fragments.size
-
+    override fun showResetConfirmation() {
+        dialog = AlertDialogBuilder(this, R.style.Theme_AppCompat_Light_Dialog)
+                .setTitle(R.string.main_reset_dialog_title)
+                .setMessage(R.string.main_reset_dialog_message)
+                .setPositiveButton(R.string.main_reset_dialog_button, {
+                    dialog, _ -> dialog.dismiss()
+                    presenter.resetData()
+                })
+                .setNegativeButton(android.R.string.cancel, {
+                    dialog, _ -> dialog.dismiss()
+                })
+                .create()
+        dialog?.show()
     }
 }

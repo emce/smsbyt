@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.fragment_sms.*
 import mobi.cwiklinski.smsbyt.App
 import mobi.cwiklinski.smsbyt.R
 import mobi.cwiklinski.smsbyt.ui.base.BaseFragment
-import mobi.cwiklinski.smsbyt.ui.main.MainActivity
-import mobi.cwiklinski.smsbyt.ui.main.MainPresenter
+import mobi.cwiklinski.smsbyt.ui.setup.SetupActivity
+import mobi.cwiklinski.smsbyt.ui.setup.SetupPresenter
 import mobi.cwiklinski.smsbyt.util.SmsPermission
 import mobi.cwiklinski.smsbyt.util.hasPermissions
 import mobi.cwiklinski.smsbyt.view.AlertDialogBuilder
@@ -34,7 +34,8 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
 
     @Inject lateinit var presenter: SmsPresenter
     private var dialog: Dialog? = null
-    lateinit private var mainPresenter: MainPresenter
+    private var canGoNext = false
+    lateinit private var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
@@ -53,7 +54,7 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainPresenter = (activity as MainActivity).presenter
+        setupPresenter = (activity as SetupActivity).presenter
     }
 
     override fun onResume() {
@@ -70,7 +71,9 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.smsNext -> {
-                presenter.onNext()
+                if (canGoNext) {
+                    presenter.onNext()
+                }
             }
             R.id.smsPermissions -> {
                 presenter.onPermission()
@@ -82,7 +85,7 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
 
     override fun goToChannel() {
         getBaseActivity().hideKeyboard()
-        mainPresenter.goToChannel()
+        setupPresenter.goToChannel()
     }
 
     override fun getPermissionRequest(): Single<SmsPermission>
@@ -118,7 +121,7 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
     }
 
     override fun canGoNext(canGo: Boolean) {
-        smsNext.isEnabled = canGo
+        canGoNext = canGo
     }
 
     override fun showApplicationPermissionsSettings() {
