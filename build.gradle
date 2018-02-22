@@ -1,22 +1,25 @@
 buildscript {
-    apply from: "dependencies.gradle"
+    apply from: "gradle/dependencies.gradle"
     repositories {
+        mavenCentral()
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
         classpath "com.ofg:uptodate-gradle-plugin:$uptodateVersion"
-        classpath "com.dicedmelon.gradle:jacoco-android:$jacocoVersion"
+        classpath "org.jacoco:org.jacoco.agent:$jacocoVersion"
     }
 }
 
 allprojects {
     repositories {
+        mavenCentral()
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
     }
 }

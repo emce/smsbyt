@@ -1,0 +1,37 @@
+apply plugin: 'jacoco'
+
+apply from: "$rootDir/gradle/versions.gradle"
+
+def exclusionList = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug",
+        excludes: ['**/R.*',
+                   '**/R$*.*',
+                   '**/*$ViewInjector*.*',
+                   '**/BuildConfig.*',
+                   '**/Manifest*.*',
+                   'android/**/*.*',
+                   '**/*Injector.*'
+        ])
+
+task codeCoverageReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports..."
+    classDirectories = exclusionList
+
+    def coverageSourceDirs = [
+            "src/main/kotlin"
+    ]
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files("${project.buildDir}/jacoco/testDebugUnitTest.exec")
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+task jacocoMerge(type: JacocoMerge) {
+    executionData fileTree(dir: buildDir, includes: ['**/*.ec', '**/*.exec'])
+
+    destinationFile file("${buildDir}/jacoco/androidTestMergedAndroidTest.exec")
+}

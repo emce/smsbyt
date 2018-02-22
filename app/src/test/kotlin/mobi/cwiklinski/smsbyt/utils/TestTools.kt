@@ -36,7 +36,7 @@ object TestTools {
 
     fun randomString(length: Int): String {
         val sb = StringBuilder(length)
-        for (i in 0..length - 1) {
+        for (i in 0 until length) {
             sb.append(AB.toCharArray()[generator.nextInt(AB.length)])
         }
         return sb.toString()

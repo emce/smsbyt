@@ -1,8 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
-apply plugin: "kotlin-allopen"
-apply plugin: "kotlin-kapt"
 apply plugin: "com.ofg.uptodate"
 
 def commitCount = Integer.parseInt('git rev-list HEAD --count'.execute([], project.rootDir).text.trim())
@@ -13,7 +11,7 @@ android {
     defaultConfig {
         applicationId "mobi.cwiklinski.smsbyt"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion compileSdk
         versionCode commitCount
         versionName appVersion + versionCode
         vectorDrawables.useSupportLibrary = true
@@ -54,46 +52,47 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:design:$supportLibVersion"
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
-    compile "com.google.firebase:firebase-crash:$firebaseVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "com.google.firebase:firebase-crash:$firebaseVersion"
 
-    compile "com.jakewharton.timber:timber:$timberVersion"
-    compile "io.reactivex:rxjava:$rxJavaVersion"
-    compile ("io.reactivex:rxandroid:$rxAndroidVersion") {
+
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "io.reactivex:rxjava:$rxJavaVersion"
+    implementation ("io.reactivex:rxandroid:$rxAndroidVersion") {
         exclude group: "io.reactivex", module: "rxjava"
     }
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile ("com.squareup.retrofit2:retrofit:$retrofitVersion") {
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofitVersion") {
         exclude group: "com.squareup.okhttp3"
     }
-    compile "com.google.code.gson:gson:$gsonVersion"
-    compile ("com.squareup.retrofit2:converter-gson:$retrofitVersion") {
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion") {
         exclude group: "com.squareup.okhttp3"
     }
-    compile ("com.squareup.retrofit2:adapter-rxjava:$retrofitVersion") {
+    implementation ("com.squareup.retrofit2:adapter-rxjava:$retrofitVersion") {
         exclude group: "com.squareup.okhttp3"
         exclude group: "io.reactivex", module: "rxjava"
     }
-    compile ("com.tbruyelle.rxpermissions:rxpermissions:$permissionUtilsVersion@aar") {
+    implementation ("com.tbruyelle.rxpermissions:rxpermissions:$permissionUtilsVersion@aar") {
         exclude group: "com.android.support", module: "appcompat-v7"
     }
-    compile "org.codejargon.feather:feather:$featherVersion"
+    implementation "org.codejargon.feather:feather:$featherVersion"
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    compile ("io.reactivex:rxkotlin:$rxKotlinVersion") {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation ("io.reactivex:rxkotlin:$rxKotlinVersion") {
         exclude group: "io.reactivex", module: "rxjava"
         exclude group: "org.jetbrains.kotlin"
     }
 
-    testCompile "junit:junit:$junitVersion"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testCompile "org.hamcrest:hamcrest-core:$hamcrestCoreVersion"
-    testCompile "org.mockito:mockito-core:$mockitoCoreVersion"
-    testCompile ("com.nhaarman:mockito-kotlin:$mockitoKotlinVersion") {
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "org.hamcrest:hamcrest-core:$hamcrestCoreVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
+    testImplementation ("com.nhaarman:mockito-kotlin:$mockitoKotlinVersion") {
         exclude group: "org.jetbrains.kotlin"
         exclude group: "org.mockito"
     }

@@ -17,7 +17,6 @@ import mobi.cwiklinski.smsbyt.util.generateTelegramForGooglePlay
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
 
     companion object {
@@ -25,17 +24,17 @@ class ChannelFragment : BaseFragment(), ChannelView, View.OnClickListener {
     }
 
     @Inject lateinit var presenter: ChannelPresenter
-    lateinit private var setupPresenter: SetupPresenter
+    private lateinit var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_channel, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_channel, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
         channelConversation.setOnClickListener(this)

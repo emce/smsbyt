@@ -35,17 +35,18 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
     @Inject lateinit var presenter: SmsPresenter
     private var dialog: Dialog? = null
     private var canGoNext = false
-    lateinit private var setupPresenter: SetupPresenter
+    private lateinit var setupPresenter: SetupPresenter
 
     override fun inject() {
         App.get().feather.injectFields(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_sms, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_sms, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
         smsPermissions.setOnClickListener(this)
@@ -81,7 +82,7 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
         }
     }
 
-    override fun canReadSms(): Boolean = activity.hasPermissions(Manifest.permission.READ_SMS)
+    override fun canReadSms(): Boolean = activity?.hasPermissions(Manifest.permission.READ_SMS) ?: false
 
     override fun goToChannel() {
         getBaseActivity().hideKeyboard()
@@ -93,15 +94,13 @@ class SmsFragment : BaseFragment(), SmsView, View.OnClickListener {
             .compose(RxPermissions(activity).ensureEach(Manifest.permission.READ_SMS))
             .toSingle()
             .map {
-                if (it.granted) {
-                    SmsPermission.GRANTED
-                } else if (it.shouldShowRequestPermissionRationale) {
-                    // Denied permission without ask never again
-                    SmsPermission.RATIONALE
-                } else {
-                    // Denied permission with ask never again
-                    // Need to go to the settings
-                    SmsPermission.DENIED
+                when {
+                    it.granted -> SmsPermission.GRANTED
+                    it.shouldShowRequestPermissionRationale -> // Denied permission without ask never again
+                        SmsPermission.RATIONALE
+                    else -> // Denied permission with ask never again
+                        // Need to go to the settings
+                        SmsPermission.DENIED
                 }
             }
 

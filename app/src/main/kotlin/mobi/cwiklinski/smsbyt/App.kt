@@ -34,8 +34,7 @@ class App : Application() {
     fun isCrashLogEnabled() = BuildConfig.DEBUG
 
     inner class CrashTree : Timber.Tree() {
-
-        override fun log(priority: Int, tag: String?, message: String?, t: Throwable?) {
+        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
             if (priority != Log.ERROR) {
                 return
             }

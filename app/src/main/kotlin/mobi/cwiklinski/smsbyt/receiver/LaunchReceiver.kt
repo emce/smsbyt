@@ -15,7 +15,6 @@ import mobi.cwiklinski.smsbyt.util.RxSchedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class LaunchReceiver : BroadcastReceiver() {
 
     private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"

@@ -1,12 +1,15 @@
 package mobi.cwiklinski.smsbyt.ui.sms
 
+import com.tbruyelle.rxpermissions.RxPermissions
 import mobi.cwiklinski.smsbyt.ui.IPresenter
 import mobi.cwiklinski.smsbyt.util.RxSchedulers
 import mobi.cwiklinski.smsbyt.util.SmsPermission
 import rx.lang.kotlin.addTo
 import javax.inject.Inject
 
-class SmsPresenter @Inject constructor(val schedulers: RxSchedulers) : IPresenter<SmsView>() {
+class SmsPresenter @Inject constructor(private val permissions: RxPermissions,
+                                       private val schedulers: RxSchedulers)
+    : IPresenter<SmsView>() {
 
     override fun start() {
         super.start()
